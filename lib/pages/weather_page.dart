@@ -22,8 +22,8 @@ class _WeatherPageState extends State<WeatherPage> {
       setState(() {
         _weather = weather;
       });
-    } catch (error) {
-      print(error);
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -58,17 +58,53 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(_weather?.cityName ?? "Loading city.."),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.location_on, color: Colors.grey, size: 40),
+                    SizedBox(height: 10),
+                    Text(
+                      _weather?.cityName ?? "Loading city...",
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.normal,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
 
-            Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
+                if (_weather != null)
+                  Lottie.asset(
+                    getWeatherAnimation(_weather?.mainCondition),
+                    width: constraints.maxWidth * 0.5,
+                    height: constraints.maxHeight * 0.3,
+                  ),
 
-            Text('${_weather?.temperature.round()}°'),
-          ],
-        ),
+                SizedBox(height: 20),
+
+                Text(
+                  '${_weather?.temperature.round()}°',
+                  style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Roboto',
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

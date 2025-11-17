@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:minimal_weather_app/models/weather_model.dart';
@@ -13,7 +12,7 @@ class WeatherService {
 
   Future<Weather> getWeather(String cityName) async {
     final response = await http.get(
-      Uri.parse('$BASE_URL?q=$cityName&appid=$apiKey&units=metric '),
+      Uri.parse('$BASE_URL?q=$cityName&appid=$apiKey&units=metric'),
     );
 
     if (response.statusCode == 200) {
@@ -31,7 +30,9 @@ class WeatherService {
     }
 
     // fetch the current location
-    Position position = await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
 
     // convert the location into a list of placemark objects
     List<Placemark> placemarks = await placemarkFromCoordinates(
