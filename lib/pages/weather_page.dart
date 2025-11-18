@@ -57,7 +57,9 @@ class _WeatherPageState extends State<WeatherPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
+      backgroundColor: isDark ? Colors.black : Colors.white,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Center(
